@@ -10,7 +10,7 @@ import os
 
 
 # Parameters
-simulation_time = 5
+simulation_time = 100
 pop_size = 10000
 urgency_scenario = 0
 history_length_personal = 5
