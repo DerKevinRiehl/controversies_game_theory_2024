@@ -3,6 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from population import initPopulation, updateUrgencyAndVOT
 from models import travel_time_model_random, expected_cost_model
+from datetime import datetime
+import os
 
 
 
@@ -153,3 +155,10 @@ plt.xlabel("# Times")
 plt.ylabel("Travel Time [minutes]")
 plt.grid()
 plt.legend()
+
+# Print the plot into a folder, with a unique name (containing date and time)
+if not os.path.exists("plots"):
+    os.makedirs("plots")
+current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+filename = f'simulation_results_{current_time}.png'
+plt.savefig("plots/"+filename)
