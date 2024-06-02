@@ -17,11 +17,8 @@ history_length_personal = 5
 history_length_reported = 5
 exploration_rate = 0.05
 
-
 system_optimum = 3983 
 nash_equilibrum = 6169
-
-
 
 
 def expected_time_model(route, memory_routeA, memory_routeB):
@@ -47,16 +44,27 @@ def expected_time_model(route, memory_routeA, memory_routeB):
                 return np.average(a=memory_routeB, weights=weights)
             else:
                 return memory_routeB[0]
-    
+
+
 def makeDecision(urgency, salary, memory_routeA, memory_routeB, history_reportedA, history_reportedB):
-    exp_time_A = expected_time_model(0, memory_routeA, memory_routeB)
-    exp_time_B = expected_time_model(1, memory_routeA, memory_routeB)
+    """ Return which route to take (0 or 1) based on multiple parameters
+
+    Function arguments:
+    urgency : Integer value between 1 (low urgency) and 10 (high urgency) representing urgency of a person
+    salary : Integer value representing salary of a person
+    memory_routeA : List containing the memory of a person for route A (lower indices are older)
+    memory_routeA : List containing the memory of a person for route B (lower indices are older)
+    history_reportedA : List containing additonal information for route A (lower indices are older)
+    history_reportedB : List containing additonal information for route B (lower indices are older)
+    """
+    expected_time_A = expected_time_model(0, memory_routeA, memory_routeB)
+    expected_time_B = expected_time_model(1, memory_routeA, memory_routeB)
     
-    if exp_time_A==-1 or exp_time_B==-1:
+    if expected_time_A==-1 or expected_time_B==-1:
         return np.random.randint(2)
     
-    exp_cost_A = expected_cost_model(route=0, exp_time=exp_time_A, pers_salary=salary, pers_urgency=urgency)
-    exp_cost_B = expected_cost_model(route=1, exp_time=exp_time_B, pers_salary=salary, pers_urgency=urgency)
+    exp_cost_A = expected_cost_model(route=0, exp_time=expected_time_A, pers_salary=salary, pers_urgency=urgency)
+    exp_cost_B = expected_cost_model(route=1, exp_time=expected_time_B, pers_salary=salary, pers_urgency=urgency)
     
     should_explore = np.random.random() < exploration_rate
     if exp_cost_A < exp_cost_B:
