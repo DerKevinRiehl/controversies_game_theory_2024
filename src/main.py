@@ -7,7 +7,7 @@ from plotting import plot_results
 from helpers import set_seed, load_parameters_json, csv_results, json_output
 from datetime import datetime
 
-def run_simulation(simulation_time: int, pop_size: int, urgency_scenario: int, history_length_personal: int, history_length_reported: int, exploration_rate: float, system_optimum: int, nash_equilibrium: int, config) -> None:
+def run_simulation(simulation_time: int, pop_size: int, urgency_scenario: int, history_length_personal: int, history_length_reported: int, exploration_rate: float, system_optimum: int, nash_equilibrium: int, simulation_type : int, history_weight_personal:float, history_weight_reported:float,  config) -> None:
     """Run the entire simulation"""
 
     #check inputs
@@ -46,7 +46,10 @@ def run_simulation(simulation_time: int, pop_size: int, urgency_scenario: int, h
                 memory_routeA = memory_route_A[idx], 
                 memory_routeB = memory_route_B[idx], 
                 history_reportedA = history_reported_A, 
-                history_reportedB = history_reported_B
+                history_reportedB = history_reported_B,
+                simulation_type = simulation_type,
+                history_weight_personal = history_weight_personal,
+                history_weight_reported = history_weight_reported
             ) for idx in range(0, len(population))])
         
         # generate travel times
@@ -96,4 +99,5 @@ if __name__ == "__main__":
     # Parameters from a json file
     config = load_parameters_json("config.json")
 
-    run_simulation(simulation_time=config["simulation_time"], pop_size=config['pop_size'], urgency_scenario=config['urgency_scenario'], history_length_personal=config['history_length_personal'], history_length_reported=config['history_length_reported'], exploration_rate=config['exploration_rate'], system_optimum=config['system_optimum'], nash_equilibrium=config['nash_equilibrium'], config=config)
+
+    run_simulation(simulation_time=config["simulation_time"], pop_size=config['pop_size'], urgency_scenario=config['urgency_scenario'], history_length_personal=config['history_length_personal'], history_length_reported=config['history_length_reported'], exploration_rate=config['exploration_rate'], system_optimum=config['system_optimum'], nash_equilibrium=config['nash_equilibrium'], simulation_type=config['simulation_type'], history_weight_personal=config['history_weight_personal'], history_weight_reported=config['history_weight_reported'], config=config)

@@ -1,35 +1,27 @@
 import numpy as np
-def expected_time_model2(route : int, memory_routeA: list, memory_routeB :list, history_routeA: list, history_routeB: list) -> float:
-    """Calculate the expected travel time for a given route."""
+def expected_time_model2(route : int, memory_routeA: list, memory_routeB :list, history_routeA: list, history_routeB: list, history_weight_personal:float, history_weight_reported:float) -> float:
+    """Calculate the expected travel time for a given route. Normal average, not weighted."""
     if not route in [0,1]:
         raise ValueError("We only have route 0 and route 1 as an option in expected_time_model()")
     # Calculate for route A
     if route==0:
-        if len(memory_routeA)==0 or len(history_routeA)==0:
+        if len(memory_routeA)==0:
             return -1
         else:
-            values = [*memory_routeA, *history_routeA]
-            return np.average(values)
-            
-            # weights = np.asarray([1/(i+1) for i in range(0, len(memory_routeA))])
-            # weights = np.flip(weights) # most recent / higher index is weighted stronger
-            # weights = weights/np.sum(weights)
-            # if len(weights)>1:
-            #     return np.average(a=memory_routeA, weights=weights)
-            # else:
-            #     return memory_routeA[0]
+            if len(memory_routeA)>1 and len(history_routeA)>1:
+                average_memory = np.average(a=memory_routeA)
+                average_history = np.average(a=history_routeA)
+                return (average_memory*history_weight_personal+average_history*history_weight_reported)/(history_weight_personal+history_weight_reported)
+            else:
+                return memory_routeA[0]
     # Calculate for route B
     else:
-        if len(memory_routeB)==0 or len(history_routeB)==0:
+        if len(memory_routeB)==0:
             return -1
         else:
-            values = [*memory_routeB, *history_routeB]
-            return np.average(values)
-            
-            # weights = np.asarray([1/(i+1) for i in range(0, len(memory_routeB))])
-            # weights = np.flip(weights) # most recent / higher index is weighted stronger
-            # weights = weights/np.sum(weights)
-            # if len(weights)>1:
-            #     return np.average(a=memory_routeB, weights=weights)
-            # else:
-            #     return memory_routeB[0]
+            if len(memory_routeB)>1 and len(history_routeB)>1:
+                average_memory = np.average(a=memory_routeB)
+                average_history = np.average(a=history_routeB)
+                return (average_memory*history_weight_personal+average_history*history_weight_reported)/(history_weight_personal+history_weight_reported)
+            else:
+                return memory_routeB[0]
