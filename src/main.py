@@ -52,6 +52,42 @@ def expected_time_model(route : int, memory_routeA: list, memory_routeB :list) -
             else:
                 return memory_routeB[0]
 
+def expected_time_model2(route : int, memory_routeA: list, memory_routeB :list, history_routeA: list, history_routeB: list) -> float:
+    """Calculate the expected travel time for a given route."""
+    if not route in [0,1]:
+        raise ValueError("We only have route 0 and route 1 as an option in expected_time_model()")
+    # Calculate for route A
+    if route==0:
+        if len(memory_routeA)==0 or len(history_routeA)==0:
+            return -1
+        else:
+            values = [*memory_routeA, *history_routeA]
+            return np.average(values)
+            
+            # weights = np.asarray([1/(i+1) for i in range(0, len(memory_routeA))])
+            # weights = np.flip(weights) # most recent / higher index is weighted stronger
+            # weights = weights/np.sum(weights)
+            # if len(weights)>1:
+            #     return np.average(a=memory_routeA, weights=weights)
+            # else:
+            #     return memory_routeA[0]
+    # Calculate for route B
+    else:
+        if len(memory_routeB)==0 or len(history_routeB)==0:
+            return -1
+        else:
+            values = [*memory_routeB, *history_routeB]
+            return np.average(values)
+            
+            # weights = np.asarray([1/(i+1) for i in range(0, len(memory_routeB))])
+            # weights = np.flip(weights) # most recent / higher index is weighted stronger
+            # weights = weights/np.sum(weights)
+            # if len(weights)>1:
+            #     return np.average(a=memory_routeB, weights=weights)
+            # else:
+            #     return memory_routeB[0]
+
+            
 def makeDecision(exploration_rate: int, urgency: int, salary: int, memory_routeA: list, memory_routeB: list, history_reportedA : list, history_reportedB :list) -> int:
     """ Return which route to take (0 or 1) based on multiple parameters"""
 
@@ -64,12 +100,16 @@ def makeDecision(exploration_rate: int, urgency: int, salary: int, memory_routeA
         raise ValueError("Exploration rate can't be negative in makeDecision()")
 
     # Calculate the time it will probably take to go on route A/0 or B/1
-    expected_time_A = expected_time_model(0, memory_routeA, memory_routeB)
-    expected_time_B = expected_time_model(1, memory_routeA, memory_routeB)
+    # expected_time_A = expected_time_model(0, memory_routeA, memory_routeB)
+    # expected_time_B = expected_time_model(1, memory_routeA, memory_routeB)
+    # expected_time_A = expected_time_model(0, history_reportedA, history_reportedB)
+    # expected_time_B = expected_time_model(1, history_reportedA, history_reportedB)
+    expected_time_A = expected_time_model2(0, memory_routeA, memory_routeB, history_reportedA, history_reportedB)
+    expected_time_B = expected_time_model2(1, memory_routeA, memory_routeB, history_reportedA, history_reportedB)
 
-    if expected_time_A==-1 or expected_time_B==-1:  #What happens here??? - czeiter
+    # If no experiences yet, random decisions
+    if expected_time_A==-1 or expected_time_B==-1:
         return np.random.randint(2)
-    
 
     # Calculate the expected costs for each route
     expected_cost_A = expected_cost_model(route=0, expected_time=expected_time_A, personal_salary=salary, personal_urgency=urgency)

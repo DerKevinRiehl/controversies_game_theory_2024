@@ -49,8 +49,8 @@ def expected_cost_model(route:int, expected_time:float, personal_salary:int, per
     # Calculations
     return time_cost_model(expected_time, personal_salary, personal_urgency) + distance_cost_model(route)
 
-#I dont understand this function yet - czeiter
 def travel_time_model_random(route, flow_A, flow_B):
+    """Returns travel time given a route and flow on routes based on sampling from a random distribution."""
     if route==0:   # Lincoln     
         mean_tt = 30 + np.power((flow_A * 0.0004), 3)
         std_tt = (30 + np.power((flow_A * 0.0004), 3))/20
