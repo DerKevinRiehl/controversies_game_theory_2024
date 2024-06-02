@@ -30,12 +30,13 @@ def plot_results(df_records : pd.DataFrame, system_optimum: int, nash_equilibriu
     # Add a box with the variables to the graphs
     config_text = (
         f"Simulation Timesteps: {config['simulation_time']}\n"
+        f"Simulation Type: {config['simulation_type']}\n"
         f"Population Size: {config['pop_size']}\n"
-        f"Urgency Scenario: {config['urgency_scenario']}\n"
         f"Personal History Length: {config['history_length_personal']}\n"
         f"Reported History Length: {config['history_length_reported']}\n"
         f"Exploration Rate: {config['exploration_rate']}\n"
-        f"Seed: {config['seed']}"
+        f"Weight personal: {config['history_weight_personal']}\n"
+        f"Weight reported: {config['history_weight_reported']}\n"
     )
     plt.figtext(0.5,0.8,config_text, ha="center", fontsize=10,bbox={"facecolor": "white", "alpha": 1, "pad": 5})
 
