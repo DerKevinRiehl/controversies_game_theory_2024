@@ -1,13 +1,16 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from population import initPopulation, updateUrgencyAndVOT
+from population import initializePopulation, updateUrgencyAndVOT
 from models import travel_time_model_random, expected_cost_model
 from datetime import datetime
 import os
+import random
 
-
-
+# Set random seed (reproducibility)
+seed = 42
+np.random.seed(seed)
+random.seed(seed)
 
 # Parameters
 simulation_time = 100
@@ -57,36 +60,47 @@ def makeDecision(urgency, salary, memory_routeA, memory_routeB, history_reported
     history_reportedA : List containing additonal information for route A (lower indices are older)
     history_reportedB : List containing additonal information for route B (lower indices are older)
     """
+
+    # Check inputs for validity
+    if urgency < 1 or urgency > 10:
+        raise ValueError("Urgency must be between 1 and 10")
+    if salary < 0:
+        raise ValueError("Salary can't be negative")
+
+    # Calculate the time it will probably take to go on route A/0 or B/1
     expected_time_A = expected_time_model(0, memory_routeA, memory_routeB)
     expected_time_B = expected_time_model(1, memory_routeA, memory_routeB)
-    
+
     if expected_time_A==-1 or expected_time_B==-1:
         return np.random.randint(2)
     
-    exp_cost_A = expected_cost_model(route=0, exp_time=expected_time_A, pers_salary=salary, pers_urgency=urgency)
-    exp_cost_B = expected_cost_model(route=1, exp_time=expected_time_B, pers_salary=salary, pers_urgency=urgency)
+    # Calculate the expected costs for each route
+    expected_cost_A = expected_cost_model(route=0, exp_time=expected_time_A, pers_salary=salary, pers_urgency=urgency)
+    expected_cost_B = expected_cost_model(route=1, exp_time=expected_time_B, pers_salary=salary, pers_urgency=urgency)
     
+    # Decides which route to take based on cost. Might still take the other route, based on random exploration
     should_explore = np.random.random() < exploration_rate
-    if exp_cost_A < exp_cost_B:
+    if expected_cost_A < expected_cost_B:
         if should_explore:
             return 1
         else:
             return 0
-    elif exp_cost_A > exp_cost_B:
+    elif expected_cost_A > expected_cost_B:
         if should_explore:
             return 0
         else:
             return 1
     else:
+        # If both costs are the same, choose one route randomly between 0 and 1
         return np.random.randint(2)
 
 
 
 
-# Init Population
-population = initPopulation(pop_size, urgency_scenario)
+# Initialize Population
+population = initializePopulation(pop_size, urgency_scenario)
 
-# Init Population Memory
+# Initialize Population Memory
 memory_route_A = [[] for i in range(0, len(population))]
 memory_route_B = [[] for i in range(0, len(population))]
 history_reported_A = []

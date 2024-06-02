@@ -42,7 +42,7 @@ def getRandomUrgencysForPopulation(urgency_scenario, pop_size):
     urgency_dist, urgency_level = getUrgencyProcess(p=urgency_scenarios[urgency_scenario])
     return np.random.choice(urgency_level, pop_size, p=urgency_dist)
 
-def initPopulation(pop_size, urgency_scenario):
+def initializePopulation(pop_size, urgency_scenario):
     salaries = np.random.choice(hour_salary, pop_size , p=np.asarray(share_population)/sum(share_population))
     population = pd.DataFrame(salaries, columns=["salary"])
     population = updateUrgencyAndVOT(population, urgency_scenario)
