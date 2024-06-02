@@ -18,3 +18,18 @@ def load_parameters_json(filename: str) -> dict:
     
     with open(path_file, "r") as read_file:
         return json.load(read_file)
+    
+def csv_results(df_records, current_time) -> None:
+    """Create a CSV with the results"""
+    if not os.path.exists("result_csv"):
+        os.makedirs("result_csv")
+    filename = f'simulation_results_csv_{current_time}.csv'
+    df_records.to_csv('result_csv/'+filename)
+
+def json_output(config, current_time) -> None:
+    """Save the current config to a json file with the same timestamp as csv and plot"""
+    if not os.path.exists("result_json"):
+        os.makedirs("result_json")
+    filename = f'simulation_results_json_{current_time}.json'
+    with open('result_json/' + filename, 'w') as json_file:
+        json.dump(config,json_file)

@@ -1,9 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
-from datetime import datetime
 
-def plot_results(df_records : pd.DataFrame, system_optimum: int, nash_equilibrium:int, config) -> None:
+
+def plot_results(df_records : pd.DataFrame, system_optimum: int, nash_equilibrium:int, config, current_time) -> None:
     """Plot simulation results to a file in /plots"""
     # Plot Results
     plt.figure(figsize=(12,8))
@@ -40,8 +40,7 @@ def plot_results(df_records : pd.DataFrame, system_optimum: int, nash_equilibriu
     plt.figtext(0.5,0.8,config_text, ha="center", fontsize=10,bbox={"facecolor": "white", "alpha": 1, "pad": 5})
 
     # Print the plot into a folder, with a unique name (containing date and time)
-    if not os.path.exists("plots"):
-        os.makedirs("plots")
-    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f'simulation_results_{current_time}.png'
-    plt.savefig("plots/"+filename)
+    if not os.path.exists("result_plots"):
+        os.makedirs("result_plots")
+    filename = f'simulation_results_plot_{current_time}.png'
+    plt.savefig("result_plots/"+filename)

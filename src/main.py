@@ -1,13 +1,16 @@
 import numpy as np
 import pandas as pd
 from population import initializePopulation, updateUrgencyAndVOT
-from models import travel_time_model_random, makeDecision
+from models import travel_time_model_random
+from decision import makeDecision
 from plotting import plot_results
-from helpers import set_seed, load_parameters_json
+from helpers import set_seed, load_parameters_json, csv_results, json_output
+from datetime import datetime
 
 def run_simulation(simulation_time: int, pop_size: int, urgency_scenario: int, history_length_personal: int, history_length_reported: int, exploration_rate: float, system_optimum: int, nash_equilibrium: int, config) -> None:
     """Run the entire simulation"""
 
+    #check inputs
     if simulation_time < 0:
         raise ValueError("Simulation time can't be negative in run_simulation()")
     if exploration_rate < 0:
@@ -17,7 +20,7 @@ def run_simulation(simulation_time: int, pop_size: int, urgency_scenario: int, h
     if history_length_reported < 0:
         raise ValueError("history_length_reported can't be negative in run_simulation()")
 
-
+    #The simulation starts here
     set_seed(42)
 
     # Initialize Population
@@ -84,7 +87,10 @@ def run_simulation(simulation_time: int, pop_size: int, urgency_scenario: int, h
         
         print(f"Time step {time + 1}/{simulation_time} completed")
     
-    plot_results(df_records, system_optimum, nash_equilibrium, config)
+    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+    plot_results(df_records, system_optimum, nash_equilibrium, config, current_time)
+    csv_results(df_records, current_time)
+    json_output(config, current_time)
 
 if __name__ == "__main__":
     # Parameters from a json file

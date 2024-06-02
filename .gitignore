@@ -165,3 +165,7 @@ cython_debug/
 
 #Project specific
 plots/
+CSV_results/
+result_plots/
+result_csv/
+result_json/
