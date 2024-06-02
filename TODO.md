@@ -3,6 +3,9 @@
 ## Code Related
 ### Plots
 - [ ] Matplotlib (time-series)
+- [ ] save CSV
+- [ ] json in title of the plot
+- [ ] save timestamped json file
 
 ### Simulator
 - [ ] Evaluation of models
