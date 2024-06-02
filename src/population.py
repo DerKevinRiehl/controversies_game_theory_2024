@@ -8,23 +8,8 @@ hour_salary = [ # 0.463530655, # 4.030655391, # 6.575052854, # 9.170190275, # 11
                19.59830867, 22.17758985, 24.91014799, 27.42071882, 30.14270613, 32.70613108, 35.46511628, 38.04968288, 40.68181818, 43.31395349, 46.03065539, 48.58879493, 51.34249471, 53.80549683, 56.60676533, 59.19661734, 61.89217759, 64.37632135, 67.17758985, 69.76744186, 72.41014799, 75, 77.8012685, 80.28541226, 82.98097252, 85.62367865, 88.3192389, 90.96194503, 93.60465116, 96.24735729, 98.89006342, 101.5327696, 104.2283298, 116.8604651, 225.4756871 ] 
 salary_intervals = [ 20, 30, 40, 50, 60, 70, 80, 90, 100, 125, ]
 
-def getSalaryClass(salary):
-    if salary < salary_intervals[0]:
-        return 0
-    elif salary > salary_intervals[-1]:
-        return len(salary_intervals)
-    else:
-        last_passed = 0
-        for val in salary_intervals:
-            if salary >= val:
-                last_passed += 1 
-            else:
-                break
-    return last_passed
-
 def getUrgencyProcess(p:float):
     """Function that takes a probability and returns urgency_level list and it's distribution via urgency_dist"""
-    urgency_dist = []
     urgency_level = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     urgency_dist = [p*np.power(1-p, k-1) for k in urgency_level]
     urgency_dist = urgency_dist/sum(urgency_dist)

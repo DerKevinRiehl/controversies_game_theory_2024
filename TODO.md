@@ -3,7 +3,10 @@
 ## Code Related
 ### Plots
 - [x] Matplotlib (time-series)
-- [ ] Add parameters to plots
+- [ ] save CSV
+- [ ] json in title of the plot
+- [ ] save timestamped json file
+
 
 ### Simulator
 - [ ] Evaluation of models
