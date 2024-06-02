@@ -3,11 +3,11 @@ import matplotlib.pyplot as plt
 import os
 from datetime import datetime
 
-def plot_results(df_records : pd.DataFrame, system_optimum: int, nash_equilibrium:int) -> None:
+def plot_results(df_records : pd.DataFrame, system_optimum: int, nash_equilibrium:int, config) -> None:
     """Plot simulation results to a file in /plots"""
     # Plot Results
     plt.figure(figsize=(12,8))
-
+    
     plt.subplot(1,2,1)
     plt.title("Split")
     plt.plot(df_records["time"], df_records["flow_A"], label="Split (Flow on Route A)")
@@ -26,6 +26,18 @@ def plot_results(df_records : pd.DataFrame, system_optimum: int, nash_equilibriu
     plt.ylabel("Travel Time [minutes]")
     plt.grid()
     plt.legend()
+
+    # Add a box with the variables to the graphs
+    config_text = (
+        f"Simulation Timesteps: {config['simulation_time']}\n"
+        f"Population Size: {config['pop_size']}\n"
+        f"Urgency Scenario: {config['urgency_scenario']}\n"
+        f"Personal History Length: {config['history_length_personal']}\n"
+        f"Reported History Length: {config['history_length_reported']}\n"
+        f"Exploration Rate: {config['exploration_rate']}\n"
+        f"Seed: {config['seed']}"
+    )
+    plt.figtext(0.5,0.8,config_text, ha="center", fontsize=10,bbox={"facecolor": "white", "alpha": 1, "pad": 5})
 
     # Print the plot into a folder, with a unique name (containing date and time)
     if not os.path.exists("plots"):
