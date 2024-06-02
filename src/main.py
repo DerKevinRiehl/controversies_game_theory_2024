@@ -1,140 +1,16 @@
 import numpy as np
 import pandas as pd
 from population import initializePopulation, updateUrgencyAndVOT
-from models import travel_time_model_random, expected_cost_model
+from models import travel_time_model_random
+from decision import makeDecision
 from plotting import plot_results
-import random
-import json
-import os
+from helpers import set_seed, load_parameters_json, csv_results, json_output
+from datetime import datetime
 
-def set_seed(seed:int) -> None:
-    """Set random seed (reproducibility)"""
-    np.random.seed(seed)
-    random.seed(seed)
-
-def load_parameters_json(filename: str) -> dict:
-    """Open the path to a json file and return it's content"""
-    path_file = os.path.dirname(__file__) + "/"+ filename
-
-    # check if file exists
-    if not os.path.exists(path_file):
-        raise FileNotFoundError(f"The path '{path_file}' is missing. Must be in same folder as main")
-    
-    with open(path_file, "r") as read_file:
-        return json.load(read_file)
-
-def expected_time_model(route : int, memory_routeA: list, memory_routeB :list) -> float:
-    """Calculate the expected travel time for a given route."""
-    if not route in [0,1]:
-        raise ValueError("We only have route 0 and route 1 as an option in expected_time_model()")
-    # Calculate for route A
-    if route==0:
-        if len(memory_routeA)==0:
-            return -1
-        else:
-            weights = np.asarray([1/(i+1) for i in range(0, len(memory_routeA))])
-            weights = np.flip(weights) # most recent / higher index is weighted stronger
-            weights = weights/np.sum(weights)
-            if len(weights)>1:
-                return np.average(a=memory_routeA, weights=weights)
-            else:
-                return memory_routeA[0]
-    # Calculate for route B
-    else:
-        if len(memory_routeB)==0:
-            return -1
-        else:
-            weights = np.asarray([1/(i+1) for i in range(0, len(memory_routeB))])
-            weights = np.flip(weights) # most recent / higher index is weighted stronger
-            weights = weights/np.sum(weights)
-            if len(weights)>1:
-                return np.average(a=memory_routeB, weights=weights)
-            else:
-                return memory_routeB[0]
-
-def expected_time_model2(route : int, memory_routeA: list, memory_routeB :list, history_routeA: list, history_routeB: list) -> float:
-    """Calculate the expected travel time for a given route."""
-    if not route in [0,1]:
-        raise ValueError("We only have route 0 and route 1 as an option in expected_time_model()")
-    # Calculate for route A
-    if route==0:
-        if len(memory_routeA)==0 or len(history_routeA)==0:
-            return -1
-        else:
-            values = [*memory_routeA, *history_routeA]
-            return np.average(values)
-            
-            # weights = np.asarray([1/(i+1) for i in range(0, len(memory_routeA))])
-            # weights = np.flip(weights) # most recent / higher index is weighted stronger
-            # weights = weights/np.sum(weights)
-            # if len(weights)>1:
-            #     return np.average(a=memory_routeA, weights=weights)
-            # else:
-            #     return memory_routeA[0]
-    # Calculate for route B
-    else:
-        if len(memory_routeB)==0 or len(history_routeB)==0:
-            return -1
-        else:
-            values = [*memory_routeB, *history_routeB]
-            return np.average(values)
-            
-            # weights = np.asarray([1/(i+1) for i in range(0, len(memory_routeB))])
-            # weights = np.flip(weights) # most recent / higher index is weighted stronger
-            # weights = weights/np.sum(weights)
-            # if len(weights)>1:
-            #     return np.average(a=memory_routeB, weights=weights)
-            # else:
-            #     return memory_routeB[0]
-
-            
-def makeDecision(exploration_rate: int, urgency: int, salary: int, memory_routeA: list, memory_routeB: list, history_reportedA : list, history_reportedB :list) -> int:
-    """ Return which route to take (0 or 1) based on multiple parameters"""
-
-    # Check inputs for validity
-    if urgency < 1 or urgency > 10:
-        raise ValueError("Urgency must be between 1 and 10 in makeDecision()")
-    if salary < 0:
-        raise ValueError("Salary can't be negative in makeDecision()")
-    if exploration_rate < 0:
-        raise ValueError("Exploration rate can't be negative in makeDecision()")
-
-    # Calculate the time it will probably take to go on route A/0 or B/1
-    # expected_time_A = expected_time_model(0, memory_routeA, memory_routeB)
-    # expected_time_B = expected_time_model(1, memory_routeA, memory_routeB)
-    # expected_time_A = expected_time_model(0, history_reportedA, history_reportedB)
-    # expected_time_B = expected_time_model(1, history_reportedA, history_reportedB)
-    expected_time_A = expected_time_model2(0, memory_routeA, memory_routeB, history_reportedA, history_reportedB)
-    expected_time_B = expected_time_model2(1, memory_routeA, memory_routeB, history_reportedA, history_reportedB)
-
-    # If no experiences yet, random decisions
-    if expected_time_A==-1 or expected_time_B==-1:
-        return np.random.randint(2)
-
-    # Calculate the expected costs for each route
-    expected_cost_A = expected_cost_model(route=0, expected_time=expected_time_A, personal_salary=salary, personal_urgency=urgency)
-    expected_cost_B = expected_cost_model(route=1, expected_time=expected_time_B, personal_salary=salary, personal_urgency=urgency)
-    
-    # Decides which route to take based on cost. Might still take the other route, based on random exploration
-    should_explore = np.random.random() < exploration_rate
-    if expected_cost_A < expected_cost_B:
-        if should_explore:
-            return 1
-        else:
-            return 0
-    elif expected_cost_A > expected_cost_B:
-        if should_explore:
-            return 0
-        else:
-            return 1
-    else:
-        # If both costs are the same, choose one route randomly between 0 and 1
-        return np.random.randint(2)
-
-
-def run_simulation(simulation_time: int, pop_size: int, urgency_scenario: int, history_length_personal: int, history_length_reported: int, exploration_rate: float, system_optimum: int, nash_equilibrium: int) -> None:
+def run_simulation(simulation_time: int, pop_size: int, urgency_scenario: int, history_length_personal: int, history_length_reported: int, exploration_rate: float, system_optimum: int, nash_equilibrium: int, config) -> None:
     """Run the entire simulation"""
 
+    #check inputs
     if simulation_time < 0:
         raise ValueError("Simulation time can't be negative in run_simulation()")
     if exploration_rate < 0:
@@ -144,7 +20,7 @@ def run_simulation(simulation_time: int, pop_size: int, urgency_scenario: int, h
     if history_length_reported < 0:
         raise ValueError("history_length_reported can't be negative in run_simulation()")
 
-
+    #The simulation starts here
     set_seed(42)
 
     # Initialize Population
@@ -211,11 +87,13 @@ def run_simulation(simulation_time: int, pop_size: int, urgency_scenario: int, h
         
         print(f"Time step {time + 1}/{simulation_time} completed")
     
-    plot_results(df_records, system_optimum, nash_equilibrium)
-
+    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+    plot_results(df_records, system_optimum, nash_equilibrium, config, current_time)
+    csv_results(df_records, current_time)
+    json_output(config, current_time)
 
 if __name__ == "__main__":
     # Parameters from a json file
     config = load_parameters_json("config.json")
 
-    run_simulation(simulation_time=config["simulation_time"], pop_size=config['pop_size'], urgency_scenario=config['urgency_scenario'], history_length_personal=config['history_length_personal'], history_length_reported=config['history_length_reported'], exploration_rate=config['exploration_rate'], system_optimum=config['system_optimum'], nash_equilibrium=config['nash_equilibrium'])
+    run_simulation(simulation_time=config["simulation_time"], pop_size=config['pop_size'], urgency_scenario=config['urgency_scenario'], history_length_personal=config['history_length_personal'], history_length_reported=config['history_length_reported'], exploration_rate=config['exploration_rate'], system_optimum=config['system_optimum'], nash_equilibrium=config['nash_equilibrium'], config=config)
