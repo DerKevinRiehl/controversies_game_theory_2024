@@ -1,9 +1,6 @@
 import numpy as np
 import pandas as pd
 
-
-
-
 # ****** POPULATION Salary Data & Urgency Process Geometric
 share_population = [ # 3.24, # 1.62, # 3.45, # 3.6, # 3.84, # 3.6, # 4.02, 
                     3.56, 3.62, 3.39, 3.68, 3.24, 3.4, 2.94, 2.97, 2.79, 2.67, 2.33, 2.38, 2.16, 2.52, 1.77, 1.87, 1.67, 1.84, 1.59, 1.52, 1.32, 1.28, 1.05, 1.53, 1.06, 1.11, 0.86, 0.87, 0.79, 0.84, 0.7, 0.72, 0.68, 4.58, 7.33 ] 
@@ -25,12 +22,8 @@ def getSalaryClass(salary):
                 break
     return last_passed
 
-def getUrgencyProcess(p):
-    """Function that takes a probability and returns urgency_level list and it's distribution via urgency_dist
-
-    Function arguments:
-    p : probability between 0 and 1
-    """
+def getUrgencyProcess(p:float):
+    """Function that takes a probability and returns urgency_level list and it's distribution via urgency_dist"""
     urgency_dist = []
     urgency_level = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     urgency_dist = [p*np.power(1-p, k-1) for k in urgency_level]
@@ -42,13 +35,13 @@ def getRandomUrgencysForPopulation(urgency_scenario, pop_size):
     urgency_dist, urgency_level = getUrgencyProcess(p=urgency_scenarios[urgency_scenario])
     return np.random.choice(urgency_level, pop_size, p=urgency_dist)
 
-def initializePopulation(pop_size, urgency_scenario):
+def initializePopulation(pop_size:int, urgency_scenario):
     salaries = np.random.choice(hour_salary, pop_size , p=np.asarray(share_population)/sum(share_population))
     population = pd.DataFrame(salaries, columns=["salary"])
     population = updateUrgencyAndVOT(population, urgency_scenario)
     return population
 
-def updateUrgencyAndVOT(population, urgency_scenario):
+def updateUrgencyAndVOT(population:int, urgency_scenario):
     population["urgency"] = getRandomUrgencysForPopulation(urgency_scenario, pop_size=len(population))
     population["VOT"] = population["urgency"] * population["salary"]
     return population
