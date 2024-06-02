@@ -2,7 +2,8 @@
 
 ## Code Related
 ### Plots
-- [ ] Matplotlib (time-series)
+- [x] Matplotlib (time-series)
+- [ ] Add parameters to plots
 
 ### Simulator
 - [ ] Evaluation of models
