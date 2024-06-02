@@ -25,6 +25,8 @@ def load_parameters_json(filename: str) -> dict:
 
 def expected_time_model(route : int, memory_routeA: list, memory_routeB :list) -> float:
     """Calculate the expected travel time for a given route."""
+    if not route in [0,1]:
+        raise ValueError("We only have route 0 and route 1 as an option in expected_time_model()")
     # Calculate for route A
     if route==0:
         if len(memory_routeA)==0:
@@ -55,9 +57,11 @@ def makeDecision(exploration_rate: int, urgency: int, salary: int, memory_routeA
 
     # Check inputs for validity
     if urgency < 1 or urgency > 10:
-        raise ValueError("Urgency must be between 1 and 10")
+        raise ValueError("Urgency must be between 1 and 10 in makeDecision()")
     if salary < 0:
-        raise ValueError("Salary can't be negative")
+        raise ValueError("Salary can't be negative in makeDecision()")
+    if exploration_rate < 0:
+        raise ValueError("Exploration rate can't be negative in makeDecision()")
 
     # Calculate the time it will probably take to go on route A/0 or B/1
     expected_time_A = expected_time_model(0, memory_routeA, memory_routeB)
@@ -90,6 +94,17 @@ def makeDecision(exploration_rate: int, urgency: int, salary: int, memory_routeA
 
 def run_simulation(simulation_time: int, pop_size: int, urgency_scenario: int, history_length_personal: int, history_length_reported: int, exploration_rate: float, system_optimum: int, nash_equilibrium: int) -> None:
     """Run the entire simulation"""
+
+    if simulation_time < 0:
+        raise ValueError("Simulation time can't be negative in run_simulation()")
+    if exploration_rate < 0:
+        raise ValueError("Exploration rate can't be negative in run_simulation()")
+    if history_length_personal < 0:
+        raise ValueError("history_length_personal can't be negative in run_simulation()")
+    if history_length_reported < 0:
+        raise ValueError("history_length_reported can't be negative in run_simulation()")
+
+
     set_seed(42)
 
     # Initialize Population
@@ -160,7 +175,7 @@ def run_simulation(simulation_time: int, pop_size: int, urgency_scenario: int, h
 
 
 if __name__ == "__main__":
-    # Parameters
+    # Parameters from a json file
     config = load_parameters_json("config.json")
 
     run_simulation(simulation_time=config["simulation_time"], pop_size=config['pop_size'], urgency_scenario=config['urgency_scenario'], history_length_personal=config['history_length_personal'], history_length_reported=config['history_length_reported'], exploration_rate=config['exploration_rate'], system_optimum=config['system_optimum'], nash_equilibrium=config['nash_equilibrium'])
