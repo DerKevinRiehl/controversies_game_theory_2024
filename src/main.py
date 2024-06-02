@@ -72,8 +72,8 @@ def makeDecision(exploration_rate: int, urgency: int, salary: int, memory_routeA
     
 
     # Calculate the expected costs for each route
-    expected_cost_A = expected_cost_model(route=0, exp_time=expected_time_A, pers_salary=salary, pers_urgency=urgency)
-    expected_cost_B = expected_cost_model(route=1, exp_time=expected_time_B, pers_salary=salary, pers_urgency=urgency)
+    expected_cost_A = expected_cost_model(route=0, expected_time=expected_time_A, personal_salary=salary, personal_urgency=urgency)
+    expected_cost_B = expected_cost_model(route=1, expected_time=expected_time_B, personal_salary=salary, personal_urgency=urgency)
     
     # Decides which route to take based on cost. Might still take the other route, based on random exploration
     should_explore = np.random.random() < exploration_rate
