@@ -1,5 +1,7 @@
 import numpy as np
-def expected_time_model2(route : int, memory_routeA: list, memory_routeB :list, history_routeA: list, history_routeB: list, history_weight_personal:float, history_weight_reported:float) -> float:
+from collections import deque
+
+def expected_time_model2(route : int, memory_routeA: deque, memory_routeB :deque, history_routeA: deque, history_routeB: deque, history_weight_personal:float, history_weight_reported:float) -> float:
     """Calculate the expected travel time for a given route. Normal average, not weighted."""
     if not route in [0,1]:
         raise ValueError("We only have route 0 and route 1 as an option in expected_time_model()")
@@ -9,8 +11,8 @@ def expected_time_model2(route : int, memory_routeA: list, memory_routeB :list, 
             return -1
         else:
             if len(memory_routeA)>1 and len(history_routeA)>1:
-                average_memory = np.average(a=memory_routeA)
-                average_history = np.average(a=history_routeA)
+                average_memory = sum(memory_routeA) / len(memory_routeA)
+                average_history = sum(history_routeA) / len(history_routeA)
                 return (average_memory*history_weight_personal+average_history*history_weight_reported)/(history_weight_personal+history_weight_reported)
             else:
                 return memory_routeA[0]
@@ -20,8 +22,8 @@ def expected_time_model2(route : int, memory_routeA: list, memory_routeB :list, 
             return -1
         else:
             if len(memory_routeB)>1 and len(history_routeB)>1:
-                average_memory = np.average(a=memory_routeB)
-                average_history = np.average(a=history_routeB)
+                average_memory = sum(memory_routeB) / len(memory_routeB)
+                average_history = sum(history_routeB) / len(history_routeB)
                 return (average_memory*history_weight_personal+average_history*history_weight_reported)/(history_weight_personal+history_weight_reported)
             else:
                 return memory_routeB[0]
