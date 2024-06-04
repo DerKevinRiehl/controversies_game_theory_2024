@@ -4,9 +4,8 @@ from time_model_2 import expected_time_model2
 from time_model_3 import expected_time_model3
 from time_model_4 import expected_time_model4
 from models import expected_cost_model
-from collections import deque
 
-def makeDecision(exploration_rate: int, urgency: int, salary: int, memory_routeA: deque, memory_routeB: deque, history_reportedA : deque, history_reportedB :deque, simulation_type:int, history_weight_personal:float, history_weight_reported:float) -> int:
+def makeDecision(exploration_rate: int, urgency: int, salary: int, memory_routeA: list, memory_routeB: list, history_reportedA : list, history_reportedB :list, simulation_type:int, history_weight_personal:float, history_weight_reported:float) -> int:
     """ Return which route to take (0 or 1) based on multiple parameters"""
 
     # Check inputs for validity
