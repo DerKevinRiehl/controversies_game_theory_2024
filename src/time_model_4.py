@@ -1,6 +1,8 @@
 import numpy as np
+from collections import deque
 
-def expected_time_model4(route : int, memory_routeA: list, memory_routeB :list, history_routeA: list, history_routeB: list, history_weight_personal:float, history_weight_reported:float) -> float:
+
+def expected_time_model4(route : int, memory_routeA: deque, memory_routeB :deque, history_routeA: deque, history_routeB: deque, history_weight_personal:float, history_weight_reported:float) -> float:
     """Calculate the expected travel time for a given route. Looks at maximum time."""
     if not route in [0,1]:
         raise ValueError("We only have route 0 and route 1 as an option in expected_time_model()")
@@ -10,7 +12,7 @@ def expected_time_model4(route : int, memory_routeA: list, memory_routeB :list, 
             return -1
         else:
             if len(memory_routeA)>1 and len(history_routeA)>1:
-                return (np.max(memory_routeA)*history_weight_personal+np.max(history_routeA)*history_weight_reported)/(history_weight_personal+history_weight_reported)
+                return (np.max(memory_routeA)*history_weight_personal+max(history_routeA)*history_weight_reported)/(history_weight_personal+history_weight_reported)
             else:
                  return memory_routeA[0]
     # Calculate for route B
@@ -20,6 +22,6 @@ def expected_time_model4(route : int, memory_routeA: list, memory_routeB :list, 
         else:
 
             if len(memory_routeB)>1 and len(history_routeB)>1:
-                return (np.max(memory_routeB)*history_weight_personal+np.max(history_routeB)*history_weight_reported)/(history_weight_personal+history_weight_reported)
+                return (np.max(memory_routeB)*history_weight_personal+max(history_routeB)*history_weight_reported)/(history_weight_personal+history_weight_reported)
             else:
                  return memory_routeB[0]

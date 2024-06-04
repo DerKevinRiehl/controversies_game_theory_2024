@@ -49,13 +49,24 @@ def expected_cost_model(route:int, expected_time:float, personal_salary:int, per
     # Calculations
     return time_cost_model(expected_time, personal_salary, personal_urgency) + distance_cost_model(route)
 
-def travel_time_model_random(route, flow_A, flow_B):
+def travel_time_model_random(decisions, flow_A, flow_B):
     """Returns travel time given a route and flow on routes based on sampling from a random distribution."""
-    if route==0:   # Lincoln     
-        mean_tt = 30 + np.power((flow_A * 0.0004), 3)
-        std_tt = (30 + np.power((flow_A * 0.0004), 3))/20
-    else: # George Washington
-        mean_tt = 45 + np.power((flow_B*0.00012), 5)
-        std_tt = (45 + np.power((flow_B*0.00012), 5))/20
-    random_time = np.random.normal(mean_tt, std_tt)
-    return random_time
+    #precalculate the values for route 0
+    mean_tt_0 = 30 + np.power((flow_A * 0.0004), 3)
+    std_tt_0 = (30 + np.power((flow_A * 0.0004), 3))/20
+
+    #precalculate values for route 1
+    mean_tt_1 = 45 + np.power((flow_B*0.00012), 5)
+    std_tt_1 = (45 + np.power((flow_B*0.00012), 5))/20    
+    
+    # Create an array to later insert with O(1)
+    array_size = len(decisions)
+    random_times = np.zeros(array_size)
+
+    for i in range(array_size):
+        if(decisions[i] == 0):
+            random_times[i] = np.random.normal(mean_tt_0, std_tt_0)
+        else:
+            random_times[i] = np.random.normal(mean_tt_1, std_tt_1)
+       
+    return random_times
