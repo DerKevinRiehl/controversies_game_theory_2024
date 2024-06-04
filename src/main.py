@@ -35,7 +35,7 @@ def run_simulation(simulation_time: int, pop_size: int, urgency_scenario: int, h
     history_reported_B = deque(maxlen=history_length_reported)
 
     # Init Recording
-    records = []
+    records = [None] * simulation_time
 
     
     # Iterate Over Time
@@ -54,37 +54,28 @@ def run_simulation(simulation_time: int, pop_size: int, urgency_scenario: int, h
                 history_weight_reported = history_weight_reported
             ) for idx in range(0, len(population))])
         
+        
         # generate travel times
         num_decisions = len(decisions)
         sum_decisions = sum(decisions)
         flow_A = num_decisions - sum_decisions
         flow_B = sum_decisions
-        travel_times = np.asarray([travel_time_model_random(route, flow_A, flow_B) for route in decisions])
+        travel_times = travel_time_model_random(decisions, flow_A, flow_B)
         mean_traveltime_A = np.mean(travel_times[decisions==0])
         mean_traveltime_B = np.mean(travel_times[decisions==1])
         
         # update histories
             # update reported history
-        history_reported_A.append(mean_traveltime_A)
+        history_reported_A.append(mean_traveltime_A) #these are deques, so if max_size is reached, it drops the first values
         history_reported_B.append(mean_traveltime_B)
-            # Remove oldest time in the reported memory
-        # if len(history_reported_A) > history_length_reported:
-        #    history_reported_A.pop(0)
-        #if len(history_reported_B) > history_length_reported:
-        #    history_reported_B.pop(0)
+
             # update memory history for each individual
         for idx in range(0, num_decisions):
             decision = decisions[idx]
             if decision==0:
-                memory_route_A[idx].append(travel_times[idx])
-                # removes oldest memory, after enough time
-                #if len(memory_route_A[idx]) > history_length_personal:
-                 #   memory_route_A[idx].pop(0)
+                memory_route_A[idx].append(travel_times[idx]) #these are deques, so if max_size is reached, it drops the first values
             else:
                 memory_route_B[idx].append(travel_times[idx])
-                # removes oldest memory, after enough time
-                #if len(memory_route_B[idx]) > history_length_personal:
-                 #   memory_route_B[idx].pop(0)
             
         # recording
 
