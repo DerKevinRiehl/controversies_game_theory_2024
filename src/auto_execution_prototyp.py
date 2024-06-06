@@ -6,11 +6,11 @@ with open('src/config.json', 'r') as f:
     parameters = json.load(f)
 
 # Define ranges for history lengths, exploration rates, and weights
-history_length_range = [1, 5, 10, 15, 20]
-exploration_rate_range = [0.02, 0.05,  0.1, 0.5]
-weight_range = range(0, 3)
+history_length_range = [10]
+exploration_rate_range = [0.02, 0.05]
+weight_range = range(0, 2)
 simulation_type_range = range(1, 5)
-simulation_time_range = [10]
+simulation_time_range = [500]
 
 counter = 0
 total_runs = len(history_length_range)**2 * len(exploration_rate_range) * len(simulation_time_range) * len(weight_range)**2 * len(simulation_type_range)
