@@ -3,6 +3,8 @@ def expected_time_model1(route : int, memory_routeA: list, memory_routeB :list, 
     """Calculate the expected travel time for a given route. Linearly weighted."""
     if not route in [0,1]:
         raise ValueError("We only have route 0 and route 1 as an option in expected_time_model()")
+    if(history_weight_personal == 0 and history_weight_reported== 0):
+        return -1
     # Calculate for route A
     if route==0:
         if len(memory_routeA)==0:
@@ -28,6 +30,7 @@ def expected_time_model1(route : int, memory_routeA: list, memory_routeB :list, 
         if len(memory_routeB)==0:
             return -1
         else:
+
             weights_memory = np.asarray([1/(i+1) for i in range(0, len(memory_routeB))])
             weights_memory = np.flip(weights_memory) # most recent / higher index is weighted stronger
             weights_memory /= np.sum(weights_memory)

@@ -25,5 +25,9 @@
 - [ ] Same for everyone
 
 ## Report
+- [ ] Find good configurations
+- [ ] Compare configurations in report
+- [ ] Formulas in Latex
+
 
 ## Presentation
