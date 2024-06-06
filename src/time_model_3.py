@@ -5,6 +5,8 @@ def expected_time_model3(route : int, memory_routeA: list, memory_routeB :list, 
     """Calculate the expected travel time for a given route by weighting history and memory based on an exponential function."""
     if not route in [0,1]:
         raise ValueError("We only have route 0 and route 1 as an option in expected_time_model()")
+    if(history_weight_personal == 0 and history_weight_reported== 0):
+        return -1
     # Calculate for route A
     if route==0:
         if len(memory_routeA)==0 or len(history_routeA)==0:
