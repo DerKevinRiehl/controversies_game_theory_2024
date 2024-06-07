@@ -8,11 +8,11 @@ import pandas as pd
 
 
 # Parameters
-json_folder = "clusterresult/result_json/"
-csv_folder = "clusterresult/result_csv/"
+json_folder = "clusterresult/x/result_json/"
+csv_folder = "clusterresult/x/result_csv/"
 
 # Draw Parameters
-method = 1     # 1 2 3 4
+method = 4     # 1 2 3 4
 
 # Determine result timestamps
 files = os.listdir(json_folder)
@@ -54,7 +54,7 @@ def drawFigure(sidetitle, shall_draw_y=True, shall_draw_x=True, plot_by_expl_rat
              if not df is None:
                  plt.plot(df["time"], df["flow_A"], label="Horizon="+str(hor), color=colors[ctr])
              ctr+=1
-    plt.legend()
+    plt.legend(loc="lower right")
     
     plt.plot(timelimit, [3983, 3983], "--", color="gray")
     plt.plot(timelimit, [6179, 6179], "--", color="gray")
@@ -73,57 +73,75 @@ def drawFigure(sidetitle, shall_draw_y=True, shall_draw_x=True, plot_by_expl_rat
 
 
 
-plt.figure(figsize=(8.2, 11.6)) # din-a4 size in inch
+plt.figure(figsize=(11.6, 8.2)) # din-a4 size in inch
     
 method=4
+methods={1:"Linear Weighted Mean", 2:"Average", 3:"Exponentially Weighted Mean", 4:"Maximum"}
 
-plt.subplot(5,3,1)
+plt.suptitle("Time Estimation Method "+str(method)+": "+methods[method], fontweight="bold")
+
+plt.subplot(5,4,1)
 plt.title("Exploration Rate = 0.00")
 drawFigure(sidetitle="Both", shall_draw_y=True, shall_draw_x=False, plot_by_expl_rates=False, timelimit=[0,500], alter=0.00, weigA=1, weigB=1)
-plt.subplot(5,3,2)
+plt.subplot(5,4,2)
 plt.title("Exploration Rate = 0.01")
 drawFigure(sidetitle="Both", shall_draw_y=False, shall_draw_x=False, plot_by_expl_rates=False, timelimit=[0,500], alter=0.01, weigA=1, weigB=1)
-plt.subplot(5,3,3)
+plt.subplot(5,4,3)
+plt.title("Exploration Rate = 0.02")
+drawFigure(sidetitle="Both", shall_draw_y=False, shall_draw_x=False, plot_by_expl_rates=False, timelimit=[0,500], alter=0.02, weigA=1, weigB=1)
+plt.subplot(5,4,4)
 plt.title("Exploration Rate = 0.05")
 drawFigure(sidetitle="Both", shall_draw_y=False, shall_draw_x=False, plot_by_expl_rates=False, timelimit=[0,500], alter=0.05, weigA=1, weigB=1)
     
-plt.subplot(5,3,4)
+plt.subplot(5,4,5)
 plt.title("Exploration Rate = 0.00")
 drawFigure(sidetitle="Only Rep", shall_draw_y=True, shall_draw_x=False, plot_by_expl_rates=False, timelimit=[0,500], alter=0.00, weigA=0, weigB=1)
-plt.subplot(5,3,5)
+plt.subplot(5,4,6)
 plt.title("Exploration Rate = 0.01")
 drawFigure(sidetitle="Only Rep", shall_draw_y=False, shall_draw_x=False, plot_by_expl_rates=False, timelimit=[0,500], alter=0.01, weigA=0, weigB=1)
-plt.subplot(5,3,6)
+plt.subplot(5,4,7)
+plt.title("Exploration Rate = 0.02")
+drawFigure(sidetitle="Only Rep", shall_draw_y=False, shall_draw_x=False, plot_by_expl_rates=False, timelimit=[0,500], alter=0.02, weigA=0, weigB=1)
+plt.subplot(5,4,8)
 plt.title("Exploration Rate = 0.05")
 drawFigure(sidetitle="Only Rep", shall_draw_y=False, shall_draw_x=False, plot_by_expl_rates=False, timelimit=[0,500], alter=0.05, weigA=0, weigB=1)
 
-plt.subplot(5,3,7)
+plt.subplot(5,4,9)
 plt.title("Exploration Rate = 0.00")
 drawFigure(sidetitle="Only Pers", shall_draw_y=True, shall_draw_x=False, plot_by_expl_rates=False, timelimit=[0,500], alter=0.00, weigA=1, weigB=0)
-plt.subplot(5,3,8)
+plt.subplot(5,4,10)
 plt.title("Exploration Rate = 0.01")
 drawFigure(sidetitle="Only Pers", shall_draw_y=False, shall_draw_x=False, plot_by_expl_rates=False, timelimit=[0,500], alter=0.01, weigA=1, weigB=0)
-plt.subplot(5,3,9)
+plt.subplot(5,4,11)
+plt.title("Exploration Rate = 0.02")
+drawFigure(sidetitle="Only Pers", shall_draw_y=False, shall_draw_x=False, plot_by_expl_rates=False, timelimit=[0,500], alter=0.02, weigA=1, weigB=0)
+plt.subplot(5,4,12)
 plt.title("Exploration Rate = 0.05")
 drawFigure(sidetitle="Only Pers", shall_draw_y=False, shall_draw_x=False, plot_by_expl_rates=False, timelimit=[0,500], alter=0.05, weigA=1, weigB=0)
 
-plt.subplot(5,3,10)
+plt.subplot(5,4,13)
 plt.title("Exploration Rate = 0.00")
 drawFigure(sidetitle="Both 2-1", shall_draw_y=True, shall_draw_x=False, plot_by_expl_rates=False, timelimit=[0,500], alter=0.00, weigA=2, weigB=1)
-plt.subplot(5,3,11)
+plt.subplot(5,4,14)
 plt.title("Exploration Rate = 0.01")
 drawFigure(sidetitle="Both 2-1", shall_draw_y=False, shall_draw_x=False, plot_by_expl_rates=False, timelimit=[0,500], alter=0.01, weigA=2, weigB=1)
-plt.subplot(5,3,12)
+plt.subplot(5,4,15)
+plt.title("Exploration Rate = 0.02")
+drawFigure(sidetitle="Both 2-1", shall_draw_y=False, shall_draw_x=False, plot_by_expl_rates=False, timelimit=[0,500], alter=0.02, weigA=2, weigB=1)
+plt.subplot(5,4,16)
 plt.title("Exploration Rate = 0.05")
 drawFigure(sidetitle="Both 2-1", shall_draw_y=False, shall_draw_x=False, plot_by_expl_rates=False, timelimit=[0,500], alter=0.05, weigA=2, weigB=1)
 
-plt.subplot(5,3,13)
+plt.subplot(5,4,17)
 plt.title("Exploration Rate = 0.00")
 drawFigure(sidetitle="Both 1-2", shall_draw_y=True, shall_draw_x=True, plot_by_expl_rates=False, timelimit=[0,500], alter=0.00, weigA=1, weigB=2)
-plt.subplot(5,3,14)
+plt.subplot(5,4,18)
 plt.title("Exploration Rate = 0.01")
 drawFigure(sidetitle="Both 1-2", shall_draw_y=False, shall_draw_x=True, plot_by_expl_rates=False, timelimit=[0,500], alter=0.01, weigA=1, weigB=2)
-plt.subplot(5,3,15)
+plt.subplot(5,4,19)
+plt.title("Exploration Rate = 0.02")
+drawFigure(sidetitle="Both 1-2", shall_draw_y=False, shall_draw_x=True, plot_by_expl_rates=False, timelimit=[0,500], alter=0.02, weigA=1, weigB=2)
+plt.subplot(5,4,20)
 plt.title("Exploration Rate = 0.05")
 drawFigure(sidetitle="Both 1-2", shall_draw_y=False, shall_draw_x=True, plot_by_expl_rates=False, timelimit=[0,500], alter=0.05, weigA=1, weigB=2)
 
