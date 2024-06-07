@@ -27,7 +27,7 @@
 ## Report
 - [ ] Find good configurations
 - [ ] Compare configurations in report
-- [ ] Formulas in Latex
+- [ ] Formulas and description of models in Latex
 
 
 ## Presentation
