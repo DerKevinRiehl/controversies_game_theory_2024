@@ -1,0 +1,1 @@
+{"simulation_time": 500, "simulation_type": 3, "pop_size": 10000, "urgency_scenario": 0, "history_length_personal": 5, "history_length_reported": 5, "history_weight_personal": 2, "history_weight_reported": 1, "exploration_rate": 0.03, "system_optimum": 3983, "nash_equilibrium": 6169, "seed": 42}

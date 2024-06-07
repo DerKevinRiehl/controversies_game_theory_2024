@@ -167,5 +167,5 @@ cython_debug/
 plots/
 CSV_results/
 result_plots/
-result_csv/
-result_json/
+#result_csv/
+#result_json/

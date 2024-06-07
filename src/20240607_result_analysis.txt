@@ -1,0 +1,162 @@
+methods
+[1, 2, 3, 4]
+
+weights
+[0, 1]
+[1, 0]
+[1, 1]
+[2, 1]
+[1, 2]
+
+exploration rate
+[0.00, 0.001, 0.01, 0.02]
+
+horizon
+[5, 10, 15, 50]
+
+$1 = weightA
+$2 = weight B
+$3 = exploration rate
+
+
+
+
+
+0.00 0.01 0.02 0.05
+
+
+
+print("niet availabilski", meth, weigA, weigB, expl, hor)
+python main_with_rungargs.py 1 0 1 0.02 10
+python main_with_rungargs.py 1 2 1 0.01 5
+python main_with_rungargs.py 1 2 1 0.01 10
+python main_with_rungargs.py 1 2 1 0.01 15
+python main_with_rungargs.py 1 2 1 0.02 5
+python main_with_rungargs.py 1 1 2 0.01 5
+python main_with_rungargs.py 1 1 2 0.02 10
+python main_with_rungargs.py 1 1 2 0.02 15
+python main_with_rungargs.py 1 1 2 0.02 50
+python main_with_rungargs.py 2 1 1 0.0 10
+python main_with_rungargs.py 2 1 1 0.01 5
+python main_with_rungargs.py 2 1 1 0.01 10
+python main_with_rungargs.py 2 1 1 0.01 15
+python main_with_rungargs.py 2 0 1 0.0 15
+python main_with_rungargs.py 2 0 1 0.02 15
+python main_with_rungargs.py 2 1 0 0.01 15
+python main_with_rungargs.py 2 1 0 0.02 5
+python main_with_rungargs.py 2 1 0 0.02 10
+python main_with_rungargs.py 2 1 0 0.02 15
+python main_with_rungargs.py 2 2 1 0.0 5
+python main_with_rungargs.py 2 2 1 0.0 10
+python main_with_rungargs.py 2 2 1 0.01 10
+python main_with_rungargs.py 2 2 1 0.01 15
+python main_with_rungargs.py 2 2 1 0.01 50
+python main_with_rungargs.py 2 2 1 0.02 15
+python main_with_rungargs.py 2 1 2 0.0 10
+python main_with_rungargs.py 2 1 2 0.0 50
+python main_with_rungargs.py 2 1 2 0.01 5
+python main_with_rungargs.py 2 1 2 0.01 15
+python main_with_rungargs.py 3 1 1 0.01 10
+python main_with_rungargs.py 3 1 1 0.01 15
+python main_with_rungargs.py 3 1 1 0.02 10
+python main_with_rungargs.py 3 1 0 0.01 15
+python main_with_rungargs.py 3 1 0 0.02 10
+python main_with_rungargs.py 3 2 1 0.01 5
+python main_with_rungargs.py 3 2 1 0.01 50
+python main_with_rungargs.py 3 2 1 0.02 10
+python main_with_rungargs.py 3 1 2 0.01 15
+python main_with_rungargs.py 4 1 1 0.01 5
+python main_with_rungargs.py 4 1 1 0.01 50
+python main_with_rungargs.py 4 1 1 0.02 5
+python main_with_rungargs.py 4 1 1 0.02 10
+python main_with_rungargs.py 4 1 1 0.02 15
+python main_with_rungargs.py 4 0 1 0.02 5
+python main_with_rungargs.py 4 0 1 0.02 10
+python main_with_rungargs.py 4 0 1 0.02 50
+python main_with_rungargs.py 4 1 0 0.0 50
+python main_with_rungargs.py 4 1 0 0.01 10
+python main_with_rungargs.py 4 1 0 0.02 5
+python main_with_rungargs.py 4 1 0 0.02 50
+python main_with_rungargs.py 4 2 1 0.01 10
+python main_with_rungargs.py 4 2 1 0.02 15
+python main_with_rungargs.py 4 2 1 0.02 50
+python main_with_rungargs.py 4 1 2 0.01 50
+python main_with_rungargs.py 4 1 2 0.02 50
+python main_with_rungargs.py 1 2 1 0.05 10
+python main_with_rungargs.py 2 1 1 0.05 5
+python main_with_rungargs.py 2 1 1 0.05 15
+python main_with_rungargs.py 2 2 1 0.05 5
+python main_with_rungargs.py 2 2 1 0.05 10
+python main_with_rungargs.py 2 1 2 0.05 5
+python main_with_rungargs.py 2 1 2 0.05 10
+python main_with_rungargs.py 3 1 1 0.05 5
+python main_with_rungargs.py 3 1 1 0.05 15
+python main_with_rungargs.py 3 1 0 0.05 10
+python main_with_rungargs.py 3 1 0 0.05 15
+python main_with_rungargs.py 4 0 1 0.05 15
+python main_with_rungargs.py 4 1 0 0.05 5
+python main_with_rungargs.py 4 1 0 0.05 15
+python main_with_rungargs.py 4 2 1 0.05 50
+python main_with_rungargs.py 4 1 2 0.05 10
+
+
+FAZIT:
+WIE BEEINFLUSST ZUGANG ZU INFORMATION DAS VERHALTEN?
+	- kommt darauf an...
+		- wie viel information (historien länge)
+		- wie man damit umgeht 
+			- (methode)
+				- vergessen und bias, weil gewichtung trotz vieler verfügbarer informationen nicht alles nutzt
+			- gewichtungsszenario / vertrauen / berücksichtigung P-R:(1-0, 0-1, 1-1, 2-1, 1-2)
+				- ein bisschen von beidem kann von vorteil, aber fokus auf personal (stbailität)
+			- exploration rate (rationalität, risikobereitschaft, experimentierfreudigkeit, lerngeschwindigkeit)
+				- positiver einfluss auf personal information, aber negativer einfluss auf reported information
+		- welche information (personal oder reported)
+		
+
+
+
+
+RAUSCHEN
+STABILITàT DES NASH EQUILIBRIUMS (FREQUENZ DES AUSFLIPPENS, AMPLITUDE)
+KONVERGENZ GESCHWINDIGKEIT
+
+
+==================================
+Methode 1 - Linear Average
+==================================
+
+- Nur personal: konvergiert, bleibt dort, kein ausflippen, rauschen je nach exploration rate
+- Nur reported: oszillation, extreme schwankungen
+- Beide 1-1:    konvergiert, schneller als nur personal, aber flippt manhcmal aus, häufigkeit der ausflipps hängt mit kürzerem horizont zusammen + höhere exploration rate
+                ausflipps ide auf relativ ähnliche hoch und tiefpunkte fällt
+- Beide 2-1:    gibt shcnelle konvergenez, es gibt ausflippen aber in kleinerer magnitude, ansonsten ähnlich wie bei only rep 
+- Beide 1-2:    ähnlich wie both, aber es dauert länger bis er sich beruhigt, frequenz der ausflips hängt mit exploration rate zusammen
+
+==================================
+Methode 2 - Normal Average (schnell konvergenz personal, mehr stabilität, weniger rauschen, längere einschwing reported)
+==================================
+
+- Nur Personal: schnellere konvergenz als bei linear average, gleiche stabilität und rausch phänoemene, längerer einschwingvorgang
+- Nur Reported: oszillation, extreme schwankungen
+- Beide 1-1:    schnellere konergenz, weniger amplitude, weniger häufiges ausflippen
+- Beide 2-1:    stabiler, weniger rauschen
+- Beide 1-2:    weniger instabil wie vorher, einschwingvorgang dauert länger
+
+==================================
+Methode 3 - Exponential Average (instabilder als linear)
+==================================
+
+- generell noch instabiler als linear 
+- wie vergessen viel mehr als beim normalen average 
+- wir nutzen den horizont kaum
+
+==================================
+Methode 4 - Max 
+==================================
+
+- Nur Perosnal: super langsame einschwingung, je länger horizont umso länger braucht es, aber wnen angekommen stabil 
+- Nur reported: oszillation, frequenz je nach horizon
+- Beide 1-1:    irgendwie schaffen sie es nicht
+- Beide 2-1:    (unklar)
+- Beide 1-2:    (unklar)
