@@ -108,6 +108,8 @@ if __name__ == "__main__":
     config["history_length_personal"] = int(sys.argv[5])
     config["history_length_reported"] = int(sys.argv[5])
     
+    # python main_with_rungargs.py 1 1 0 0.01 10
+    
     print("User config")
     print(config)
     
