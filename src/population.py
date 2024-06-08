@@ -10,13 +10,13 @@ salary_intervals = [ 20, 30, 40, 50, 60, 70, 80, 90, 100, 125, ]
 
 def getUrgencyProcess(p:float):
     """Function that takes a probability and returns urgency_level list and it's distribution via urgency_dist"""
-    urgency_level = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    urgency_level = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
     urgency_dist = [p*np.power(1-p, k-1) for k in urgency_level]
     urgency_dist = urgency_dist/sum(urgency_dist)
     return urgency_dist, urgency_level
 
 def getRandomUrgencysForPopulation(urgency_scenario, pop_size):
-    urgency_scenarios = [0.6, 0.5, 0.4]
+    urgency_scenarios = np.array([0.6, 0.5, 0.4])
     urgency_dist, urgency_level = getUrgencyProcess(p=urgency_scenarios[urgency_scenario])
     return np.random.choice(urgency_level, pop_size, p=urgency_dist)
 

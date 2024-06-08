@@ -53,8 +53,8 @@ def run_simulation(simulation_time: int, pop_size: int, urgency_scenario: int, h
             ) for idx in range(0, len(population))])
         
         # generate travel times
-        flow_A = len(decisions) - sum(decisions)
         flow_B = sum(decisions)
+        flow_A = len(decisions) - flow_B
         travel_times = np.asarray([travel_time_model_random(route, flow_A, flow_B) for route in decisions])
         mean_traveltime_A = np.mean(travel_times[decisions==0])
         mean_traveltime_B = np.mean(travel_times[decisions==1])

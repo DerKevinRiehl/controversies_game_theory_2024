@@ -5,7 +5,7 @@ from time_model_3 import expected_time_model3
 from time_model_4 import expected_time_model4
 from models import expected_cost_model
 
-def makeDecision(exploration_rate: int, urgency: int, salary: int, memory_routeA: list, memory_routeB: list, history_reportedA : list, history_reportedB :list, simulation_type:int, history_weight_personal:float, history_weight_reported:float) -> int:
+def makeDecision(exploration_rate: int, urgency: int, salary: int, memory_routeA: list, memory_routeB: list, history_reportedA: list, history_reportedB: list, simulation_type: int, history_weight_personal: float, history_weight_reported: float) -> int:
     """ Return which route to take (0 or 1) based on multiple parameters"""
 
     # Check inputs for validity
@@ -21,20 +21,16 @@ def makeDecision(exploration_rate: int, urgency: int, salary: int, memory_routeA
     expected_time_A = None
     expected_time_B = None
 
-    match simulation_type:
-        case 1:
-            expected_time_A = expected_time_model1(0, memory_routeA, memory_routeB, history_reportedA, history_reportedB, history_weight_personal, history_weight_reported)
-            expected_time_B = expected_time_model1(1, memory_routeA, memory_routeB, history_reportedA, history_reportedB, history_weight_personal, history_weight_reported)
-        case 2:
-            expected_time_A = expected_time_model2(0, memory_routeA, memory_routeB, history_reportedA, history_reportedB, history_weight_personal, history_weight_reported)
-            expected_time_B = expected_time_model2(1, memory_routeA, memory_routeB, history_reportedA, history_reportedB, history_weight_personal, history_weight_reported)          
-        case 3:
-            expected_time_A = expected_time_model3(0, memory_routeA, memory_routeB, history_reportedA, history_reportedB, history_weight_personal, history_weight_reported)
-            expected_time_B = expected_time_model3(1, memory_routeA, memory_routeB, history_reportedA, history_reportedB, history_weight_personal, history_weight_reported)    
-        case 4:
-            expected_time_A = expected_time_model4(0, memory_routeA, memory_routeB, history_reportedA, history_reportedB, history_weight_personal, history_weight_reported)
-            expected_time_B = expected_time_model4(1, memory_routeA, memory_routeB, history_reportedA, history_reportedB, history_weight_personal, history_weight_reported)    
+    # All available simulation models
+    simulation_models = [expected_time_model1, expected_time_model2, expected_time_model3, expected_time_model4]
 
+    # Choose simulation model
+    current_model = simulation_models[simulation_type-1]
+
+    # Apply chosen current model
+    expected_time_A = current_model(0, memory_routeA, memory_routeB, history_reportedA, history_reportedB, history_weight_personal, history_weight_reported)
+    expected_time_B = current_model(1, memory_routeA, memory_routeB, history_reportedA, history_reportedB, history_weight_personal, history_weight_reported)
+    
     # If no experiences yet, random decisions
     if expected_time_A==-1 or expected_time_B==-1:
         return np.random.randint(2)

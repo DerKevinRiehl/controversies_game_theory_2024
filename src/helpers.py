@@ -2,6 +2,7 @@ import random
 import json
 import os
 import numpy as np
+import math
 
 def set_seed(seed:int) -> None:
     """Set random seed (reproducibility)"""
@@ -33,3 +34,15 @@ def json_output(config, current_time) -> None:
     filename = f'simulation_results_json_{current_time}.json'
     with open('result_json/' + filename, 'w') as json_file:
         json.dump(config,json_file)
+    
+
+def compute_linear_weights(iterable: list):
+    res = np.asarray([1/(i+1) for i in range(0, len(iterable))])
+    res = np.flip(res) # most recent / higher index is weighted stronger
+    res /= np.sum(res)
+    return res
+
+def compute_exponential_weights(iterable: list):
+    res = np.asarray([math.exp(i) for i in range(0, len(iterable))])
+    res /= np.sum(res)
+    return res
