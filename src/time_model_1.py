@@ -1,12 +1,12 @@
 import numpy as np
-from helpers import compute_linear_weights
+from helpers import compute_geometric_weights
 
 def expected_time_model1(route: int, memory_routeA: list, memory_routeB: list, history_routeA: list, history_routeB: list, history_weight_personal: float, history_weight_reported: float) -> float:
-    """Calculate the expected travel time for a given route. Linearly weighted."""
+    """Calculate the expected travel time for a given route. Geometrically weighted."""
 
     if not route in [0,1]:
         raise ValueError("We only have route 0 and route 1 as an option in expected_time_model()")
-    if(history_weight_personal == 0 and history_weight_reported== 0):
+    if(history_weight_personal == 0 and history_weight_reported == 0):
         return -1
     # Calculate for route A or B
     if route==0:
@@ -19,8 +19,8 @@ def expected_time_model1(route: int, memory_routeA: list, memory_routeB: list, h
     if len(memory_route)==0 or len(history_route)==0:
         return -1
     else:
-        weights_memory = compute_linear_weights(memory_route)
-        weights_history = compute_linear_weights(history_route)
+        weights_memory = compute_geometric_weights(memory_route)
+        weights_history = compute_geometric_weights(history_route)
 
         if len(weights_memory)>1 and len(weights_history)>1:
             weighted_avg_mem = np.average(a=memory_route, weights=weights_memory)

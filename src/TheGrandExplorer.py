@@ -76,7 +76,7 @@ def drawFigure(sidetitle, shall_draw_y=True, shall_draw_x=True, plot_by_expl_rat
 plt.figure(figsize=(11.6, 8.2)) # din-a4 size in inch
     
 method=2
-methods={1:"Linear Weighted Mean", 2:"Average", 3:"Exponentially Weighted Mean", 4:"Maximum"}
+methods={1:"Geometrically Weighted Mean", 2:"Average", 3:"Exponentially Weighted Mean", 4:"Maximum"}
 
 plt.suptitle("Time Estimation Method "+str(method)+": "+methods[method], fontweight="bold")
 

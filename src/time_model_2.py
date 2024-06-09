@@ -1,5 +1,5 @@
 import numpy as np
-from helpers import compute_linear_weights
+
 
 def expected_time_model2(route: int, memory_routeA: list, memory_routeB: list, history_routeA: list, history_routeB: list, history_weight_personal: float, history_weight_reported: float) -> float:
     """Calculate the expected travel time for a given route. Normal average, not weighted."""

@@ -36,7 +36,7 @@ def json_output(config, current_time) -> None:
         json.dump(config,json_file)
     
 
-def compute_linear_weights(iterable: list):
+def compute_geometric_weights(iterable: list):
     res = np.asarray([1/(i+1) for i in range(0, len(iterable))])
     res = np.flip(res) # most recent / higher index is weighted stronger
     res /= np.sum(res)
