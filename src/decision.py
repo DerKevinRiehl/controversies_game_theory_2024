@@ -18,9 +18,6 @@ def makeDecision(exploration_rate: int, urgency: int, salary: int, memory_routeA
     if history_weight_personal <0 or history_weight_reported<0:
         raise ValueError("Weights must be postive in makeDecision()")
 
-    expected_time_A = None
-    expected_time_B = None
-
     # All available simulation models
     simulation_models = [expected_time_model1, expected_time_model2, expected_time_model3, expected_time_model4]
 
