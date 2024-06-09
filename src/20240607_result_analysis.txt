@@ -123,7 +123,7 @@ KONVERGENZ GESCHWINDIGKEIT
 
 
 ==================================
-Methode 1 - Linear Average
+Methode 1 - Geometric Average
 ==================================
 
 - Nur personal: konvergiert, bleibt dort, kein ausflippen, rauschen je nach exploration rate
@@ -137,17 +137,17 @@ Methode 1 - Linear Average
 Methode 2 - Normal Average (schnell konvergenz personal, mehr stabilität, weniger rauschen, längere einschwing reported)
 ==================================
 
-- Nur Personal: schnellere konvergenz als bei linear average, gleiche stabilität und rausch phänoemene, längerer einschwingvorgang
+- Nur Personal: schnellere konvergenz als bei geometric average, gleiche stabilität und rausch phänoemene, längerer einschwingvorgang
 - Nur Reported: oszillation, extreme schwankungen
 - Beide 1-1:    schnellere konergenz, weniger amplitude, weniger häufiges ausflippen
 - Beide 2-1:    stabiler, weniger rauschen
 - Beide 1-2:    weniger instabil wie vorher, einschwingvorgang dauert länger
 
 ==================================
-Methode 3 - Exponential Average (instabilder als linear)
+Methode 3 - Exponential Average (instabilder als geometric)
 ==================================
 
-- generell noch instabiler als linear 
+- generell noch instabiler als geometric
 - wie vergessen viel mehr als beim normalen average 
 - wir nutzen den horizont kaum
 

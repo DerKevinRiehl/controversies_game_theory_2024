@@ -28,5 +28,6 @@
 - [ ] Find good configurations
 - [ ] Compare configurations in report
 - [ ] SEVA: Write Chapter "Methods" (discuss hat we do, how we calculate everything, algorithms, and different formulas representing the time estimation models) https://www.overleaf.com/project/6658e30e549929a2ddf3f3be
+- [x] Rename linear to geometric
 
 ## Presentation
