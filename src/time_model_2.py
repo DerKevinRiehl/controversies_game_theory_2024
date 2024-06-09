@@ -18,10 +18,10 @@ def expected_time_model2(route: int, memory_routeA: list, memory_routeB: list, h
 
     if len(memory_route)==0 or len(history_route)==0:
         return -1
+    elif len(memory_route)==1 or len(history_route)==1:
+        return (memory_route[0] * history_weight_personal + history_route[0] * history_weight_reported)/(history_weight_personal + history_weight_reported)
     else:
-        if len(memory_route)>1 and len(history_route)>1:
-            average_memory = np.average(a=memory_route)
-            average_history = np.average(a=history_route)
-            return (average_memory*history_weight_personal + average_history*history_weight_reported)/(history_weight_personal + history_weight_reported)
-        else:
-            return memory_route[0]
+        average_memory = np.average(a=memory_route)
+        average_history = np.average(a=history_route)
+        
+        return (average_memory*history_weight_personal + average_history*history_weight_reported)/(history_weight_personal + history_weight_reported)

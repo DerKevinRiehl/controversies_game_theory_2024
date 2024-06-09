@@ -17,13 +17,13 @@ def expected_time_model3(route: int, memory_routeA: list, memory_routeB: list, h
 
     if len(memory_route)==0 or len(history_route)==0:
         return -1
+    elif len(memory_route)==1 or len(history_route)==1:
+        return (memory_route[0] * history_weight_personal + history_route[0] * history_weight_reported)/(history_weight_personal + history_weight_reported)
     else:
         weights_memory = compute_exponential_weights(memory_route)
         weights_history = compute_exponential_weights(history_route)
 
-        if len(weights_memory)>1 and len(weights_history)>1:
-            exponent_weighted_average_memory = np.average(a=memory_route, weights=weights_memory)
-            exponent_weighted_average_history = np.average(a=history_route, weights=weights_history)
-            return (exponent_weighted_average_memory*history_weight_personal+exponent_weighted_average_history*history_weight_reported)/(history_weight_personal+history_weight_reported)
-        else:
-            return memory_route[0]
+        exponent_weighted_average_memory = np.average(a=memory_route, weights=weights_memory)
+        exponent_weighted_average_history = np.average(a=history_route, weights=weights_history)
+        
+        return (exponent_weighted_average_memory*history_weight_personal+exponent_weighted_average_history*history_weight_reported)/(history_weight_personal+history_weight_reported)

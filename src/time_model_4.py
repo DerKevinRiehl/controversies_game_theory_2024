@@ -18,8 +18,7 @@ def expected_time_model4(route: int, memory_routeA: list, memory_routeB: list, h
 
     if len(memory_route)==0 or len(history_route)==0:
         return -1
+    elif len(memory_route)==1 or len(history_route)==1:
+        return (memory_route[0] * history_weight_personal + history_route[0] * history_weight_reported)/(history_weight_personal + history_weight_reported)
     else:
-        if len(memory_route)>1 and len(history_route)>1:
-            return (np.max(memory_route)*history_weight_personal+np.max(history_route)*history_weight_reported)/(history_weight_personal+history_weight_reported)
-        else:
-            return memory_route[0]
+        return (np.max(memory_route)*history_weight_personal + np.max(history_route)*history_weight_reported)/(history_weight_personal + history_weight_reported)

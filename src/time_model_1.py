@@ -18,13 +18,13 @@ def expected_time_model1(route: int, memory_routeA: list, memory_routeB: list, h
     
     if len(memory_route)==0 or len(history_route)==0:
         return -1
+    elif len(memory_route)==1 or len(history_route)==1:
+        return (memory_route[0] * history_weight_personal + history_route[0] * history_weight_reported)/(history_weight_personal + history_weight_reported)
     else:
         weights_memory = compute_geometric_weights(memory_route)
         weights_history = compute_geometric_weights(history_route)
 
-        if len(weights_memory)>1 and len(weights_history)>1:
-            weighted_avg_mem = np.average(a=memory_route, weights=weights_memory)
-            weighted_avg_hist = np.average(a=history_route, weights=weights_history)
-            return (weighted_avg_mem*history_weight_personal + weighted_avg_hist*history_weight_reported)/(history_weight_personal+history_weight_reported)
-        else:
-            return memory_route[0]
+        weighted_avg_mem = np.average(a=memory_route, weights=weights_memory)
+        weighted_avg_hist = np.average(a=history_route, weights=weights_history)
+        
+        return (weighted_avg_mem*history_weight_personal + weighted_avg_hist*history_weight_reported)/(history_weight_personal+history_weight_reported)
