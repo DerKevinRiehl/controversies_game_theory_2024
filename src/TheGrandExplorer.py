@@ -54,7 +54,7 @@ def drawFigure(sidetitle, shall_draw_y=True, shall_draw_x=True, plot_by_expl_rat
              if not df is None:
                  plt.plot(df["time"], df["flow_A"], label="Horizon="+str(hor), color=colors[ctr])
              ctr+=1
-    plt.legend(loc="lower right")
+    # plt.legend(loc="lower right")
     
     plt.plot(timelimit, [3983, 3983], "--", color="gray")
     plt.plot(timelimit, [6179, 6179], "--", color="gray")
@@ -73,16 +73,17 @@ def drawFigure(sidetitle, shall_draw_y=True, shall_draw_x=True, plot_by_expl_rat
 
 
 
-plt.figure(figsize=(11.6, 8.2)) # din-a4 size in inch
+plt.figure(figsize=(11.6*1.25, 8.2*1.25)) # din-a4 size in inch
     
-method=2
-methods={1:"Linear Weighted Mean", 2:"Average", 3:"Exponentially Weighted Mean", 4:"Maximum"}
+method=4
+methods={1:"Geometrically Weighted Mean", 2:"Average", 3:"Exponentially Weighted Mean", 4:"Maximum"}
 
-plt.suptitle("Time Estimation Method "+str(method)+": "+methods[method], fontweight="bold")
+# plt.suptitle("Time Estimation Method "+str(method)+": "+methods[method], fontweight="bold")
 
 plt.subplot(5,4,1)
 plt.title("Exploration Rate = 0.00")
 drawFigure(sidetitle="Both", shall_draw_y=True, shall_draw_x=False, plot_by_expl_rates=False, timelimit=[0,500], alter=0.00, weigA=1, weigB=1)
+plt.legend(loc="lower right")
 plt.subplot(5,4,2)
 plt.title("Exploration Rate = 0.01")
 drawFigure(sidetitle="Both", shall_draw_y=False, shall_draw_x=False, plot_by_expl_rates=False, timelimit=[0,500], alter=0.01, weigA=1, weigB=1)
