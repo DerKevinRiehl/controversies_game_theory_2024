@@ -12,7 +12,7 @@ json_folder = "clusterresult/result_json/"
 csv_folder = "clusterresult/result_csv/"
 
 # Draw Parameters
-method = 4     # 1 2 3 4
+method = 1     # 1 2 3 4
 
 # Determine result timestamps
 files = os.listdir(json_folder)
